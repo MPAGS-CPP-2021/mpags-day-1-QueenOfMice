@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <ctype.h>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -39,15 +40,16 @@ int main(int argc, char** argv) {
     // string to store output cipher
     std::string out = "";
 
+    std::ifstream in(infilename);
+    if (!in) {
+        std::cerr << "Unable to open file input .txt file" << std::endl;
+        exit(1);   // call system to stop
+    }
+
     // Loop over all input characters
-    while (true) {
-        // read input
-        char c;
-        std::cin >> c;
-        if (std::cin.eof()){ 
-            break;
-        }
-        //
+    char c;
+    while (in.get(c)) {
+
         // If letter, make sure it is upper case
         if (isalpha(c)) {
             if (isupper(c)) { // is upper case
@@ -79,5 +81,6 @@ int main(int argc, char** argv) {
             continue;
         }
     }
+    in.close();
     std::cout << out << std::endl;        
 }
