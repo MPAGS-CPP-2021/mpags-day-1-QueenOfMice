@@ -37,14 +37,15 @@ int main(int argc, char** argv) {
 
     assert((infilename != "") && "No input file provided. Use -i option to specify.");
     assert((outfilename != "") && "No output file provided. Use -o option to specify.");
-    // string to store output cipher
-    std::string out = "";
 
     std::ifstream in(infilename);
     if (!in) {
-        std::cerr << "Unable to open file input .txt file" << std::endl;
-        exit(1);   // call system to stop
+        std::cerr << "Unable to open input .txt file" << std::endl;
+        return 1;   // call system to stop
     }
+
+    // string to store output cipher
+    std::string out = "";
 
     // Loop over all input characters
     char c;
@@ -82,5 +83,14 @@ int main(int argc, char** argv) {
         }
     }
     in.close();
-    std::cout << out << std::endl;        
+
+    // open output file and write to it
+    std::ofstream outf(outfilename);
+    if (!outf) {
+        std::cerr << "Unable to open output .txt file" << std::endl;
+        return 1;   // call system to stop
+    }
+
+    outf << out;
+    outf << std::endl;
 }
