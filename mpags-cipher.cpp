@@ -1,9 +1,41 @@
+#include <assert.h>
 #include <ctype.h>
-
 #include <iostream>
 #include <string>
+#include <vector>
 
-int main() {
+int main(int argc, char** argv) {
+    
+    const std::vector<std::string> cmdLineArgs { argv, argv+argc };
+
+    std::string infilename = ""; 
+    std::string outfilename = ""; 
+    std::string version = "v1.0";
+
+    int count = 0;
+    for (auto el : cmdLineArgs) {
+        if (el == "-v" || el == "--version") {
+            std::cout << "mpags-cipher version " << version << std::endl;
+        }
+        if (el == "-h" || el == "--help") {
+            std::cout << "Options:" << std::endl <<
+            " -i <input txt file> " << std::endl <<
+            " -o <output txt file> " << std::endl <<
+            " -c <cipher name> " << std::endl <<
+            " -k <int> " << std::endl <<
+            " --encrypt" << std::endl;
+        } 
+        else if (el == "-i") {
+           infilename =  cmdLineArgs.at(count+1); 
+        }
+        else if (el == "-o") {
+           outfilename =  cmdLineArgs.at(count+1); 
+        }
+        count++;
+    }
+
+    assert((infilename != "") && "No input file provided. Use -i option to specify.");
+    assert((outfilename != "") && "No output file provided. Use -o option to specify.");
     // string to store output cipher
     std::string out = "";
 
